@@ -1,0 +1,7 @@
+tests/sitemap.xml
+tests/sitemap_Page.xml
+tests/sitemap_BlogArticle.xml
+tests/sitemap_BlogCategory.xml
+tests/vcards.vcf
+vendor
+.idea/
