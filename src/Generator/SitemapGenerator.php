@@ -18,6 +18,9 @@ class SitemapGenerator
     /** @var SitemapProviders */
     private $providers;
 
+    /** @var bool */
+    private $prefixUrl = true;
+
     /**
      * @param string $url
      * @param string $path
@@ -29,6 +32,13 @@ class SitemapGenerator
         $this->url = $url;
         $this->providers = $providers;
         $this->setPath($path);
+    }
+
+    public function disableUrlPrefixes(): self
+    {
+        $this->prefixUrl = false;
+
+        return $this;
     }
 
     public function generate(): void
@@ -54,7 +64,7 @@ class SitemapGenerator
         /** @var SitemapItem $item */
         foreach ($provider->getItems()->getAll() as $item) {
             $itemNode = $rootNode->addChild('url');
-            $itemNode->addChild('loc', $this->url . $item->getUrl());
+            $itemNode->addChild('loc', ($this->prefixUrl) ? $this->url : '' . $item->getUrl());
             $itemNode->addChild('changefreq', $item->getChangeFrequency()->__toString());
             $itemNode->addChild('lastmod', $item->getLastModifiedOn()->format('Y-m-d'));
             $itemNode->addChild('priority', $item->getPriority()/10);
